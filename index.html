@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        canvas{
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+<canvas width="500" height="500"></canvas>
+</body>
+</html>
+<script>
+    var canvas=document.querySelector("canvas");
+    var cobj=canvas.getContext("2d");
+    function huoyan(){
+        this.speedx=24*Math.random()-2;
+        this.speedy=-12*Math.random()-1;
+        this.life=24;
+        this.speedr=2+2*Math.random();
+        this.r=18+12*Math.random();
+        this.color="rgb(206,17,12)";
+    }
+    huoyan.prototype={
+        draw:function(){
+        cobj.save();
+        cobj.beginPath();
+        cobj.fillStyle=this.color;
+        cobj.globalCompositeOperation="lighter";
+    cobj.translate(this.x,this.y);
+    cobj.arc(0,0,this.r,0,2*Math.PI);
+    cobj.fill();
+    cobj.restore();
+        },
+        update:function(){
+            this.x+=(4*Math.random()-2);
+            this.y+=this.speedy;
+            this.life-=0.3;
+            this.r-=0.8;
+        }
+    }
+
+    var arr=[];
+    setInterval(function(){
+        cobj.clearRect(0,0,500,500);
+        var obj=new huoyan();
+        obj.x=300;
+        obj.y=300;
+        arr.push(obj);
+        for(var i=0;i<arr.length;i++){
+            arr[i].draw();
+            arr[i].update();
+            if(arr[i].r<0||arr[i].life<0){
+                arr[i]=new huoyan();
+                arr[i].x=300;
+                arr[i].y=300;
+        }
+//        cobj.save();
+//        cobj.translate(this.x,this.y);
+//        cobj.fill();
+//        cobj.restore();
+
+    }
+    },50)
+
+
+
+</script>
